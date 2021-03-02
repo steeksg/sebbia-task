@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.scss";
 import CategoriesPage from "./pages/categories";
+import NewsPage from "./pages/news";
 
 function App(props) {
   return (
@@ -11,6 +12,9 @@ function App(props) {
         <Switch>
           <Route path="/categories">
             <CategoriesPage />
+          </Route>
+          <Route path="/news">
+            <NewsPage />
           </Route>
           <Redirect push to="/categories" />
         </Switch>

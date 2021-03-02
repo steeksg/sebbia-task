@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { fetchCategories } from "../redux/slices/categories";
+import { setCategoryID } from "../redux/slices/news";
 
 function CategoriesPage(props) {
-  const { isLoaded, categories, fetchCategories } = props;
+  const { isLoaded, categories, fetchCategories, setCategoryID } = props;
+
+  let history = useHistory();
 
   useEffect(() => {
     if (!isLoaded)
@@ -17,9 +21,14 @@ function CategoriesPage(props) {
   };
 
   const Row = ({ category }) => {
+    const handleClick = () => {
+      setCategoryID(category.id);
+      history.push("/news");
+    };
+
     return (
       <>
-        <ListItem button>
+        <ListItem button onClick={handleClick}>
           <ListItemText primary={category.name} />
         </ListItem>
         <Divider />
@@ -50,6 +59,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchCategories: (endPoint) => dispatch(fetchCategories(endPoint)),
+    setCategoryID: (id) => dispatch(setCategoryID(id)),
   };
 }
 
