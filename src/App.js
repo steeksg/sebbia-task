@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import "./App.scss";
 import CategoriesPage from "./pages/categories";
 import NewsPage from "./pages/news";
+import DetailsPage from "./pages/details"
 
 function App(props) {
   return (
@@ -15,6 +16,9 @@ function App(props) {
           </Route>
           <Route path="/news">
             <NewsPage />
+          </Route>
+          <Route path="/details">
+            <DetailsPage />
           </Route>
           <Redirect push to="/categories" />
         </Switch>

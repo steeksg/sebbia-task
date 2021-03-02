@@ -16,11 +16,12 @@ const newsSlice = createSlice({
   name: "news",
   initialState: {
     code: null,
-    list: [],
+    list: null,
     isLoaded: false,
     error: null,
     currentCategoryID: 0,
     currentPage: 0,
+    selectedNews:0
   },
   reducers: {
     setCategoryID: (state, action) => {
@@ -28,6 +29,9 @@ const newsSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
+    },
+    setSelectedNews: (state, action) => {
+      state.selectedNews = action.payload;
     },
   },
   extraReducers: {
@@ -47,6 +51,6 @@ const newsSlice = createSlice({
 
 const { actions, reducer } = newsSlice;
 
-export const { setCategoryID, setCurrentPage } = actions;
+export const { setCategoryID, setCurrentPage, setSelectedNews } = actions;
 
 export default reducer;

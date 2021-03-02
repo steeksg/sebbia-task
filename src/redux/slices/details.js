@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchCategories = createAsyncThunk(
-  "categories/fetchCategories",
+export const fetchDetails = createAsyncThunk(
+  "details/fetchDetails",
   (endPoint, thunkAPI) => {
     return fetch(endPoint)
       .then((res) => {
@@ -12,22 +12,22 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-const categoriesSlice = createSlice({
-  name: "categories",
-  initialState: { code: null, list: null, isLoaded: false, error: null },
+const detailsSlice = createSlice({
+  name: "details",
+  initialState: { code: null, news: null, isLoaded: false, error: null },
   extraReducers: {
-    [fetchCategories.pending]: (state) => {
+    [fetchDetails.pending]: (state) => {
       state.isLoaded = true;
     },
-    [fetchCategories.fulfilled]: (state, action) => {
-      state.list = action.payload.list;
+    [fetchDetails.fulfilled]: (state, action) => {
+      state.news = action.payload.news;
       state.code = action.payload.code;
     },
-    [fetchCategories.rejected]: (state, action) => {
+    [fetchDetails.rejected]: (state, action) => {
       state.isLoaded = false;
       state.error = action.payload;
     },
   },
 });
 
-export default categoriesSlice.reducer;
+export default detailsSlice.reducer;

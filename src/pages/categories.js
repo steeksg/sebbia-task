@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
+import { List, ListItem, ListItemText, Divider, CircularProgress } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -17,7 +17,7 @@ function CategoriesPage(props) {
   });
 
   const Stub = () => {
-    return <div> Идёт загрузка данных... </div>;
+    return <CircularProgress/> ;
   };
 
   const Row = ({ category }) => {

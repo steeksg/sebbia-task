@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
-import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
-
+import { List, ListItem, ListItemText, Divider, CircularProgress } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchNews } from "../redux/slices/news";
+
+import { fetchNews, setSelectedNews } from "../redux/slices/news";
 
 function NewsPage(props) {
-  const { isLoaded, list, fetchNews, currentCategoryID, currentPage } = props;
+  const { isLoaded, list, fetchNews, currentCategoryID, currentPage, setSelectedNews } = props;
+
+  let history = useHistory();
 
   useEffect(() => {
     fetchNews(
@@ -14,13 +17,19 @@ function NewsPage(props) {
   }, [currentCategoryID]);
 
   const Stub = () => {
-    return <div> Идёт загрузка данных... </div>;
+    return <CircularProgress/>;
   };
 
   const Row = ({ item }) => {
+
+    const handleClick = () => { 
+      setSelectedNews(item.id);
+      history.push("/details");
+    }
+
     return (
       <>
-        <ListItem button>
+        <ListItem button onClick={handleClick}>
           <ListItemText primary={item.title} />
         </ListItem>
         <Divider />
@@ -53,6 +62,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchNews: (endPoint) => dispatch(fetchNews(endPoint)),
+    setSelectedNews: (id) => dispatch(setSelectedNews(id))
   };
 }
 
