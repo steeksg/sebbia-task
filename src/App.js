@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import "./App.scss";
 import CategoriesPage from "./pages/categories";
 import NewsPage from "./pages/news";
-import DetailsPage from "./pages/details"
+import DetailsPage from "./pages/details";
 
 function App(props) {
   return (
