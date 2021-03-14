@@ -20,18 +20,19 @@ const newsSlice = createSlice({
     isLoaded: false,
     error: null,
     currentCategoryID: 0,
-    currentPage: 0,
-    selectedNews:0
+    selectedNews:0,
+    paginationActivity:{}
   },
   reducers: {
     setCategoryID: (state, action) => {
       state.currentCategoryID = action.payload;
     },
-    setCurrentPage: (state, action) => {
-      state.currentPage = action.payload;
-    },
     setSelectedNews: (state, action) => {
       state.selectedNews = action.payload;
+    },
+    setPaginationActivity: (state, action) => {
+      // state.paginationActivity = action.payload;
+      state.paginationActivity = {...state.paginationActivity, ...action.payload};
     },
   },
   extraReducers: {
@@ -51,6 +52,6 @@ const newsSlice = createSlice({
 
 const { actions, reducer } = newsSlice;
 
-export const { setCategoryID, setCurrentPage, setSelectedNews } = actions;
+export const { setCategoryID, setSelectedNews, setPaginationActivity } = actions;
 
 export default reducer;

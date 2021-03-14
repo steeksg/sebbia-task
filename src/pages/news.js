@@ -10,11 +10,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
-import {
-  fetchNews,
-  setSelectedNews,
-  setCurrentPage,
-} from "../redux/slices/news";
+import { fetchNews, setSelectedNews, setPaginationActivity } from "../redux/slices/news";
 import Pagination from "../components/pagination/pagination";
 
 function NewsPage(props) {
@@ -23,15 +19,12 @@ function NewsPage(props) {
     list,
     fetchNews,
     currentCategoryID,
-    currentPage,
-    setCurrentPage,
     setSelectedNews,
+    setPaginationActivity,
+    paginationActivity
   } = props;
 
-  const [typePage, setTypePage] = useState({
-    increment: true,
-    decrement: false,
-  });
+  const [currentPage, setCurrentPage] = useState(0);
 
   let history = useHistory();
 
@@ -39,21 +32,13 @@ function NewsPage(props) {
     fetchNews(
       `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${currentPage}`
     );
+  }, [currentCategoryID, currentPage]);
 
-    fetch(
-      `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${
-        currentPage - 1
-      }`
-    ).then((res) => {
-      return res.json().then((res) => {
-        if (res.list && res.list.length > 0) {
-          setTypePage({ ...typePage, decrement: true });
-        } else {
-          setTypePage({ ...typePage, decrement: false });
-        }
-      });
-    });
+  useEffect(() => {
+    setPaginationActivity({...paginationActivity, decrement: !!currentPage})
+  }, [currentPage]);
 
+  useEffect(() => {
     fetch(
       `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${
         currentPage + 1
@@ -61,14 +46,13 @@ function NewsPage(props) {
     ).then((res) => {
       return res.json().then((res) => {
         if (res.list && res.list.length > 0) {
-          setTypePage({ ...typePage, increment: true });
+          setPaginationActivity({increment: true})
         } else {
-          setTypePage({ ...typePage, increment: false });
+          setPaginationActivity({increment: false})
         }
       });
     });
-
-  }, [currentCategoryID, currentPage]);
+  }, [currentPage]);
 
   const Stub = () => {
     return <CircularProgress />;
@@ -100,13 +84,25 @@ function NewsPage(props) {
     );
   };
 
+  const incrementHandler = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const decrementHandler = () => {
+    if (currentPage !== 0) {
+      setCurrentPage(currentPage - 1);
+    } else {
+      setCurrentPage(0);
+    }
+  };
+
   return (
     <>
       {list ? <ListNews /> : <Stub />}
       <Pagination
-        increment={() => setCurrentPage(currentPage + 1)}
-        decrement={() => setCurrentPage(currentPage - 1)}
-        type={typePage}
+        increment={incrementHandler}
+        decrement={decrementHandler}
+        type={paginationActivity}
       />
       {/* <Pagination
         count={10}
@@ -122,7 +118,7 @@ function mapStateToProps(state) {
     list: state.news.list,
     isLoaded: state.news.isLoaded,
     currentCategoryID: state.news.currentCategoryID,
-    currentPage: state.news.currentPage,
+    paginationActivity: state.news.paginationActivity
   };
 }
 
@@ -130,7 +126,8 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchNews: (endPoint) => dispatch(fetchNews(endPoint)),
     setSelectedNews: (id) => dispatch(setSelectedNews(id)),
-    setCurrentPage: (page) => dispatch(setCurrentPage(page)),
+    setPaginationActivity: (paginationActivity) =>
+      dispatch(setPaginationActivity(paginationActivity)),
   };
 }
 
