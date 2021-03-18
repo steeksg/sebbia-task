@@ -9,7 +9,7 @@ import { setCategoryID } from "../redux/slices/news";
 function CategoriesPage(props) {
   const { isLoaded, categories, fetchCategories, setCategoryID } = props;
 
-  let history = useHistory();
+  let history = useHistory(); //TODO delete
 
   useEffect(() => {
     if (!isLoaded)
