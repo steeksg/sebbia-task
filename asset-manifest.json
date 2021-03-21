@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sebbia-task/static/css/main.3cea188e.chunk.css",
-    "main.js": "/sebbia-task/static/js/main.f4ebb038.chunk.js",
-    "main.js.map": "/sebbia-task/static/js/main.f4ebb038.chunk.js.map",
+    "main.js": "/sebbia-task/static/js/main.1026c2d9.chunk.js",
+    "main.js.map": "/sebbia-task/static/js/main.1026c2d9.chunk.js.map",
     "runtime-main.js": "/sebbia-task/static/js/runtime-main.cfa728fc.js",
     "runtime-main.js.map": "/sebbia-task/static/js/runtime-main.cfa728fc.js.map",
     "static/js/2.c121de87.chunk.js": "/sebbia-task/static/js/2.c121de87.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.cfa728fc.js",
     "static/js/2.c121de87.chunk.js",
     "static/css/main.3cea188e.chunk.css",
-    "static/js/main.f4ebb038.chunk.js"
+    "static/js/main.1026c2d9.chunk.js"
   ]
 }
