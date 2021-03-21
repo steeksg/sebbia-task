@@ -15,7 +15,7 @@ function DetailsPage(props) {
 
   useEffect(() => {
     fetchDetails(
-      `http://testtask.sebbia.com/v1/news/details?id=${selectedNews}`
+      `https://testtask.sebbia.com/v1/news/details?id=${selectedNews}`
     );
   }, [selectedNews, fetchDetails]);
 

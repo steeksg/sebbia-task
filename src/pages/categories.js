@@ -14,7 +14,7 @@ function CategoriesPage(props) {
 
   useEffect(() => {
     if (!isLoaded)
-      fetchCategories("http://testtask.sebbia.com/v1/news/categories");
+      fetchCategories("https://testtask.sebbia.com/v1/news/categories");
   });
 
   useEffect(() => {

@@ -38,7 +38,7 @@ function NewsPage(props) {
 
   useEffect(() => {
     fetchNews(
-      `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${currentPage}`
+      `https://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${currentPage}`
     );
   }, [currentCategoryID, currentPage, fetchNews]);
 
@@ -48,7 +48,7 @@ function NewsPage(props) {
 
   useEffect(() => {
     fetch(
-      `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${
+      `https://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${
         currentPage + 1
       }`
     ).then((res) => {
