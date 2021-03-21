@@ -31,7 +31,6 @@ const newsSlice = createSlice({
       state.selectedNews = action.payload;
     },
     setPaginationActivity: (state, action) => {
-      // state.paginationActivity = action.payload;
       state.paginationActivity = {...state.paginationActivity, ...action.payload};
     },
   },

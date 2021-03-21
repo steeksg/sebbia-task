@@ -1,8 +1,9 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-export default function Pagination({ increment, decrement, type }) {
+import "./pagination.scss";
 
+export default function Pagination({ increment, decrement, type }) {
   return (
     <div>
       <Button
@@ -10,6 +11,7 @@ export default function Pagination({ increment, decrement, type }) {
         color="primary"
         disabled={!type.decrement}
         onClick={decrement}
+        className="pagination--button-back"
       >
         Назад
       </Button>
@@ -18,6 +20,7 @@ export default function Pagination({ increment, decrement, type }) {
         color="primary"
         disabled={!type.increment}
         onClick={increment}
+        className="pagination--button-forward"
       >
         Вперёд
       </Button>

@@ -5,12 +5,19 @@ import {
   ListItemText,
   Divider,
   CircularProgress,
+  Typography,
 } from "@material-ui/core";
-// import { Pagination } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { fetchNews, setSelectedNews, setPaginationActivity } from "../redux/slices/news";
+import {
+  fetchNews,
+  setSelectedNews,
+  setPaginationActivity,
+} from "../redux/slices/news";
+
+import { setNews } from "../redux/slices/details";
+import { setNamePage } from "../redux/slices/design";
 import Pagination from "../components/pagination/pagination";
 
 function NewsPage(props) {
@@ -21,7 +28,9 @@ function NewsPage(props) {
     currentCategoryID,
     setSelectedNews,
     setPaginationActivity,
-    paginationActivity
+    paginationActivity,
+    setNamePage,
+    setNews,
   } = props;
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -35,7 +44,7 @@ function NewsPage(props) {
   }, [currentCategoryID, currentPage]);
 
   useEffect(() => {
-    setPaginationActivity({...paginationActivity, decrement: !!currentPage})
+    setPaginationActivity({ ...paginationActivity, decrement: !!currentPage });
   }, [currentPage]);
 
   useEffect(() => {
@@ -46,28 +55,47 @@ function NewsPage(props) {
     ).then((res) => {
       return res.json().then((res) => {
         if (res.list && res.list.length > 0) {
-          setPaginationActivity({increment: true})
+          setPaginationActivity({ increment: true });
         } else {
-          setPaginationActivity({increment: false})
+          setPaginationActivity({ increment: false });
         }
       });
     });
   }, [currentPage]);
 
+  useEffect(() => {
+    setNamePage("Список новостей");
+  });
+
   const Stub = () => {
     return <CircularProgress />;
+  };
+
+  const Empty = () => {
+    return <div>В данной категории пока нет новостей</div>;
   };
 
   const Row = ({ item }) => {
     const handleClick = () => {
       setSelectedNews(item.id);
+      setNews({ title: item.title, shortDescription: item.shortDescription });
       history.push("/details");
     };
 
     return (
       <>
         <ListItem button onClick={handleClick}>
-          <ListItemText primary={item.title} />
+          <ListItemText
+            primary={item.title}
+            secondary={
+              <React.Fragment>
+                <Typography component="p" variant="body2" color="textPrimary">
+                  {item.shortDescription + "  "}
+                </Typography>
+                <Typography component="p">{item.date}</Typography>
+              </React.Fragment>
+            }
+          />
         </ListItem>
         <Divider />
       </>
@@ -76,11 +104,17 @@ function NewsPage(props) {
 
   const ListNews = () => {
     return (
-      <List>
-        {list.map((item) => {
-          return <Row key={item.id} item={item} />;
-        })}
-      </List>
+      <>
+        {list.length != 0 ? (
+          <List>
+            {list.map((item) => {
+              return <Row key={item.id} item={item} />;
+            })}
+          </List>
+        ) : (
+          <Empty />
+        )}
+      </>
     );
   };
 
@@ -104,11 +138,6 @@ function NewsPage(props) {
         decrement={decrementHandler}
         type={paginationActivity}
       />
-      {/* <Pagination
-        count={10}
-        color="primary"
-        onChange={(event, value) => setCurrentPage(value-1)}
-      /> */}
     </>
   );
 }
@@ -118,7 +147,7 @@ function mapStateToProps(state) {
     list: state.news.list,
     isLoaded: state.news.isLoaded,
     currentCategoryID: state.news.currentCategoryID,
-    paginationActivity: state.news.paginationActivity
+    paginationActivity: state.news.paginationActivity,
   };
 }
 
@@ -128,6 +157,8 @@ function mapDispatchToProps(dispatch) {
     setSelectedNews: (id) => dispatch(setSelectedNews(id)),
     setPaginationActivity: (paginationActivity) =>
       dispatch(setPaginationActivity(paginationActivity)),
+    setNamePage: (namePage) => dispatch(setNamePage(namePage)),
+    setNews: (news) => dispatch(setNews(news)),
   };
 }
 

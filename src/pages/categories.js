@@ -5,15 +5,20 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCategories } from "../redux/slices/categories";
 import { setCategoryID } from "../redux/slices/news";
+import { setNamePage } from "../redux/slices/design";
 
 function CategoriesPage(props) {
-  const { isLoaded, categories, fetchCategories, setCategoryID } = props;
+  const { isLoaded, categories, fetchCategories, setCategoryID, setNamePage } = props;
 
-  let history = useHistory(); //TODO delete
+  let history = useHistory(); 
 
   useEffect(() => {
     if (!isLoaded)
       fetchCategories("http://testtask.sebbia.com/v1/news/categories");
+  });
+
+  useEffect(() => {
+    setNamePage("Категории");
   });
 
   const Stub = () => {
@@ -23,7 +28,7 @@ function CategoriesPage(props) {
   const Row = ({ category }) => {
     const handleClick = () => {
       setCategoryID(category.id);
-      history.push("/news");
+      history.push(`/news/${category.id}`);
     };
 
     return (
@@ -60,6 +65,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCategories: (endPoint) => dispatch(fetchCategories(endPoint)),
     setCategoryID: (id) => dispatch(setCategoryID(id)),
+    setNamePage: (namePage) => dispatch(setNamePage(namePage)),
   };
 }
 

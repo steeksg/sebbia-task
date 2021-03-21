@@ -8,15 +8,20 @@ import {
 
 import { connect } from "react-redux";
 import { fetchDetails } from "../redux/slices/details";
+import { setNamePage } from "../redux/slices/design";
 
 function DetailsPage(props) {
-  const { isLoaded, news, fetchDetails, selectedNews } = props;
+  const { isLoaded, news, fetchDetails, selectedNews, setNamePage } = props;
 
   useEffect(() => {
     fetchDetails(
       `http://testtask.sebbia.com/v1/news/details?id=${selectedNews}`
     );
   }, [selectedNews]);
+
+  useEffect(() => {
+    setNamePage("Детали");
+  });
 
   const Stub = () => {
     return <CircularProgress />;
@@ -56,6 +61,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchDetails: (endPoint) => dispatch(fetchDetails(endPoint)),
+    setNamePage: (namePage) => dispatch(setNamePage(namePage)),
   };
 }
 
