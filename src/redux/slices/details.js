@@ -40,4 +40,4 @@ const { actions, reducer } = detailsSlice;
 
 export const {setNews} = actions;
 
-export default detailsSlice.reducer;
+export default reducer;

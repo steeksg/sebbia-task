@@ -14,4 +14,4 @@ const { actions, reducer } = designSlice;
 
 export const { setNamePage} = actions;
 
-export default designSlice.reducer;
+export default reducer;

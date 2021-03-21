@@ -22,7 +22,6 @@ import Pagination from "../components/pagination/pagination";
 
 function NewsPage(props) {
   const {
-    isLoaded,
     list,
     fetchNews,
     currentCategoryID,
@@ -41,11 +40,11 @@ function NewsPage(props) {
     fetchNews(
       `http://testtask.sebbia.com/v1/news/categories/${currentCategoryID}/news?page=${currentPage}`
     );
-  }, [currentCategoryID, currentPage]);
+  }, [currentCategoryID, currentPage, fetchNews]);
 
   useEffect(() => {
     setPaginationActivity({ ...paginationActivity, decrement: !!currentPage });
-  }, [currentPage]);
+  }, [currentPage, setPaginationActivity]);
 
   useEffect(() => {
     fetch(
@@ -61,7 +60,7 @@ function NewsPage(props) {
         }
       });
     });
-  }, [currentPage]);
+  }, [currentPage, currentCategoryID, setPaginationActivity]);
 
   useEffect(() => {
     setNamePage("Список новостей");
@@ -72,7 +71,7 @@ function NewsPage(props) {
   };
 
   const Empty = () => {
-    return <div>В данной категории пока нет новостей</div>;
+    return <div className="empty">В данной категории пока нет новостей</div>;
   };
 
   const Row = ({ item }) => {
@@ -82,6 +81,15 @@ function NewsPage(props) {
       history.push("/details");
     };
 
+    var options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+
     return (
       <>
         <ListItem button onClick={handleClick}>
@@ -89,10 +97,15 @@ function NewsPage(props) {
             primary={item.title}
             secondary={
               <React.Fragment>
-                <Typography component="p" variant="body2" color="textPrimary">
-                  {item.shortDescription + "  "}
+                <Typography
+                  component="span"
+                  variant="body2"
+                  color="textPrimary"
+                >
+                  {item.shortDescription}
                 </Typography>
-                <Typography component="p">{item.date}</Typography>
+                <br />
+                {new Date(item.date).toLocaleString("ru", options)}
               </React.Fragment>
             }
           />
@@ -105,7 +118,7 @@ function NewsPage(props) {
   const ListNews = () => {
     return (
       <>
-        {list.length != 0 ? (
+        {list.length !== 0 ? (
           <List>
             {list.map((item) => {
               return <Row key={item.id} item={item} />;

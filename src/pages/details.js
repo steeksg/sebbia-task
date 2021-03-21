@@ -11,13 +11,13 @@ import { fetchDetails } from "../redux/slices/details";
 import { setNamePage } from "../redux/slices/design";
 
 function DetailsPage(props) {
-  const { isLoaded, news, fetchDetails, selectedNews, setNamePage } = props;
+  const { news, fetchDetails, selectedNews, setNamePage } = props;
 
   useEffect(() => {
     fetchDetails(
       `http://testtask.sebbia.com/v1/news/details?id=${selectedNews}`
     );
-  }, [selectedNews]);
+  }, [selectedNews, fetchDetails]);
 
   useEffect(() => {
     setNamePage("Детали");
@@ -32,15 +32,13 @@ function DetailsPage(props) {
       <>
         <Card>
           <CardContent>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h4" component="h2">
               {news.title}
             </Typography>
-            <Typography>{news.shortDescription}</Typography>
-            <Typography variant="body2" component="p">
-              <div
-                dangerouslySetInnerHTML={{ __html: news.fullDescription }}
-              ></div>
-            </Typography>
+            <Typography variant="body1">{news.shortDescription}</Typography>
+            <div
+              dangerouslySetInnerHTML={{ __html: news.fullDescription }}
+            ></div>
           </CardContent>
         </Card>
       </>
